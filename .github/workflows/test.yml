@@ -1,0 +1,26 @@
+name: GraphWalker Installer Tests
+
+on: [push]
+
+jobs:
+  test-macos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install GraphWalker
+        run: |
+          ./install-graphwalker.sh
+      - name: Run GraphWalker
+        run: |
+          gw --help
+
+  test-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install GraphWalker
+        run: |
+          ./install-graphwalker.bat
+      - name: Run GraphWalker
+        run: |
+          gw --help
