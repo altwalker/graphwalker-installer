@@ -3,7 +3,7 @@ name: GraphWalker Installer Tests
 on: [push]
 
 jobs:
-  test-macos:
+  test-ubuntu:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
