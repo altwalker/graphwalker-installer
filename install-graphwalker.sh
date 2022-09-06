@@ -7,6 +7,6 @@ echo "Install GraphWalker CLI..."
 mkdir -p ~/.graphwalker
 mv graphwalker-cli-4.3.0.jar ~/.graphwalker/
 
-echo -e '#!/bin/bash\njava -jar ~/graphwalker/graphwalker-cli-4.3.0.jar "$@"' > ~/.graphwalker/graphwalker-cli.sh
+echo -e '#!/bin/bash\njava -jar ~/.graphwalker/graphwalker-cli-4.3.0.jar "$@"' > ~/.graphwalker/graphwalker-cli.sh
 chmod +x ~/.graphwalker/graphwalker-cli.sh
 ln -s ~/.graphwalker/graphwalker-cli.sh /usr/local/bin/gw
