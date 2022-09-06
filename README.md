@@ -15,6 +15,12 @@ To install GraphWalker on:
     Or:
 
     ```bash
+    $ wget -q -O - https://raw.githubusercontent.com/altwalker/graphwalker-installer/main/install-graphwalker.sh | sh
+    ```
+
+    Or:
+
+    ```bash
     $ git clone https://github.com/altwalker/graphwalker-installer.git
     $ cd graphwalker-installer
     $ chmod +x install-graphwalker.sh
@@ -23,7 +29,7 @@ To install GraphWalker on:
 
 * **Windows** you can run the following commands:
 
-    ```console
+    ```cmd
     > git clone https://github.com/altwalker/graphwalker-installer.git
     > cd graphwalker-installer
     > install-graphwalker.bat
