@@ -12,17 +12,17 @@ validate_grapwalker_version() {
 }
 
 install_grapwalker() {
-    $GRAPWALKER_VERSION=$1
+    GRAPWALKER_VERSION=$1
 
     echo "Installing GraphWalker CLI $GRAPWALKER_VERSION..."
 
     echo ">>> Clone the GraphWalker repository..."
     git clone https://github.com/GraphWalker/graphwalker-project.git
     cd graphwalker-project
+    CHECKOUT_STATUS=0
 
     if [[ ! "$GRAPWALKER_VERSION" == "latest" ]]; then
         echo ">>> Checkout to v$GRAPWALKER_VERSION..."
-
         git checkout "v$GRAPWALKER_VERSION"
         CHECKOUT_STATUS=$?
     fi
@@ -34,6 +34,7 @@ install_grapwalker() {
     fi
 
     if [[ $BUILD_STATUS == 0 ]]; then
+        echo ">>> Create the gw command...."
         $JAR_PATH = ls graphwalker-cli/target/*.jar | head -n 1
         $JAR_FILE = basename $JAR_PATH
 
@@ -49,6 +50,7 @@ install_grapwalker() {
     cd ..
     rm -rf graphwalker-project
 }
+
 
 GRAPWALKER_VERSION=$1
 if [[ "$GRAPWALKER_VERSION" == "" ]]; then
