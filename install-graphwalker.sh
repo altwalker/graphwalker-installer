@@ -41,8 +41,11 @@ install_grapwalker() {
 
         mkdir -p ~/.graphwalker
         mv $JAR_PATH ~/.graphwalker/
+        ls ~/.graphwalker/
 
-        echo -e '#!/bin/bash\njava -jar ~/.graphwalker/$JAR_FILE "$@"' > ~/.graphwalker/graphwalker-cli.sh
+        echo '#!/bin/bash' > ~/.graphwalker/graphwalker-cli.sh
+        echo "java -jar ~/.graphwalker/$JAR_FILE" '"$@"' >> ~/.graphwalker/graphwalker-cli.sh
+
         chmod +x ~/.graphwalker/graphwalker-cli.sh
         cat ~/.graphwalker/graphwalker-cli.sh
         ln -s ~/.graphwalker/graphwalker-cli.sh /usr/local/bin/gw
