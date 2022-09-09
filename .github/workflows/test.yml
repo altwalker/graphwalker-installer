@@ -2,6 +2,10 @@ name: GraphWalker Installer Tests
 
 on: [push]
 
+strategy:
+  matrix:
+    graphwalker-version: [ 'latest', '3.2.4', '' ]
+
 jobs:
   test-ubuntu:
     runs-on: ubuntu-latest
@@ -12,10 +16,10 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Install GraphWalker
+      - name: Install GraphWalker ${{ matrix.graphwalker-version }}
         run: |
           chmod +x install-graphwalker.sh
-          ./install-graphwalker.sh
+          ./install-graphwalker.sh ${{ matrix.graphwalker-version }}
       - name: Run GraphWalker
         run: |
           gw --version
