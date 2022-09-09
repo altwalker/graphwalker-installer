@@ -36,14 +36,15 @@ install_grapwalker() {
 
     if [[ $BUILD_STATUS == 0 ]]; then
         echo ">>> Create the gw command...."
-        $JAR_PATH = ls graphwalker-cli/target/*.jar | head -n 1
-        $JAR_FILE = basename $JAR_PATH
+        JAR_PATH = ls graphwalker-cli/target/*.jar | head -n 1
+        JAR_FILE = basename $JAR_PATH
 
         mkdir -p ~/.graphwalker
         mv $JAR_PATH ~/.graphwalker/
 
         echo -e '#!/bin/bash\njava -jar ~/.graphwalker/$JAR_FILE "$@"' > ~/.graphwalker/graphwalker-cli.sh
         chmod +x ~/.graphwalker/graphwalker-cli.sh
+        cat ~/.graphwalker/graphwalker-cli.sh
         ln -s ~/.graphwalker/graphwalker-cli.sh /usr/local/bin/gw
     fi
 
