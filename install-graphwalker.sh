@@ -21,6 +21,8 @@ install_grapwalker() {
     cd graphwalker-project
 
     if [[ ! "$GRAPWALKER_VERSION" == "latest" ]]; then
+        echo ">>> Checkout to v$GRAPWALKER_VERSION..."
+
         git checkout "v$GRAPWALKER_VERSION"
         CHECKOUT_STATUS=$?
     fi
