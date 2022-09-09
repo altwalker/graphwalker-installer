@@ -27,6 +27,7 @@ install_grapwalker() {
         CHECKOUT_STATUS=$?
     fi
 
+    BUILD_STATUS=1
     if [[ $CHECKOUT_STATUS == 0 ]]; then
         echo ">>> Build GraphWalker CLI..."
         mvn package -pl graphwalker-cli -am
