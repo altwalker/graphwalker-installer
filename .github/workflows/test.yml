@@ -3,12 +3,13 @@ name: GraphWalker Installer Tests
 on: [push]
 
 jobs:
-  strategy:
-    matrix:
-      graphwalker-version: [ 'latest', '3.2.4', '' ]
-
   test-ubuntu:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        graphwalker-version: [ 'latest', '3.2.4', '' ]
+
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
