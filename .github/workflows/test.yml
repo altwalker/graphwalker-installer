@@ -2,11 +2,11 @@ name: GraphWalker Installer Tests
 
 on: [push]
 
-strategy:
-  matrix:
-    graphwalker-version: [ 'latest', '3.2.4', '' ]
-
 jobs:
+  strategy:
+    matrix:
+      graphwalker-version: [ 'latest', '3.2.4', '' ]
+
   test-ubuntu:
     runs-on: ubuntu-latest
     steps:
