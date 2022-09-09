@@ -5,7 +5,7 @@ validate_grapwalker_version() {
     VERSION_REGEX='^([0-9]+\.){2}([0-9]+)$'
 
     if [[ ! $VERSION =~ $VERSION_REGEX ]]; then
-        echo "Invalid GraphWalker version '$VERSION'."
+        echo "ERROR: Invalid GraphWalker version '$VERSION'."
         echo "The version must use a 'major.minor' pattern (e.g 3.2.1, 3.4.0)."
         exit 1
     fi
@@ -19,22 +19,32 @@ install_grapwalker() {
     echo ">>> Clone the GraphWalker repository..."
     git clone https://github.com/GraphWalker/graphwalker-project.git
     cd graphwalker-project
-    CHECKOUT_STATUS=0
+
+    CHECKOUT_STATUS=1
+    BUILD_STATUS=1
 
     if [[ ! "$GRAPWALKER_VERSION" == "latest" ]]; then
         echo ">>> Checkout to v$GRAPWALKER_VERSION..."
         git checkout "$GRAPWALKER_VERSION"
         CHECKOUT_STATUS=$?
+    else
+        # Build the version from the master branch
+        CHECKOUT_STATUS=0
     fi
 
-    BUILD_STATUS=1
-    if [[ $CHECKOUT_STATUS == 0 ]]; then
+    if [[ ! $CHECKOUT_STATUS == 0 ]]; then
+        echo "ERROR: No matching version found for GraphWalker version '$VERSION'."
+        exit 1
+    else
         echo ">>> Build GraphWalker CLI..."
         mvn package -pl graphwalker-cli -am
         BUILD_STATUS=$?
     fi
 
-    if [[ $BUILD_STATUS == 0 ]]; then
+    if [[ ! $BUILD_STATUS == 0 ]]; then
+        echo "ERROR: An unexpected error occured while building the GraphWalker CLI."
+        exit 1
+    else
         echo ">>> Create the gw command...."
         JAR_PATH=`ls graphwalker-cli/target/*.jar | head -n 1`
         JAR_FILE=`basename $JAR_PATH`
