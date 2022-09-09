@@ -23,7 +23,7 @@ install_grapwalker() {
 
     if [[ ! "$GRAPWALKER_VERSION" == "latest" ]]; then
         echo ">>> Checkout to v$GRAPWALKER_VERSION..."
-        git checkout "v$GRAPWALKER_VERSION"
+        git checkout "$GRAPWALKER_VERSION"
         CHECKOUT_STATUS=$?
     fi
 
