@@ -1,3 +1,5 @@
+"""A simple python script for installing GraphWalker CLI on Linux, MacOS and Windows."""
+
 import platform
 import logging
 import shutil
@@ -47,11 +49,39 @@ def build_graphwalker(path, version):
         raise Exception("The GraphWalker build processes failed with status code: '{}'.".format(status))
 
     build_path = "graphwalker-cli/target/"
-    return get_files_by_extension(build_path, ".jar")[0]
+    jar_file = get_files_by_extension(build_path, ".jar")[0]
+
+    return os.path.join(repo_path, build_path, jar_file)
 
 
-def create_graphwalker_script(path, jar_file):
-    logger.debug("Create the GraphWalker script.")
+def create_graphwalker_script(path, jar_path):
+    logger.info("Create the GraphWalker CLI script file...")
+    logger.debug("Path: {!r}".format(path))
+    logger.debug("JAR path: {!r}".format(jar_path))
+
+    jar_file = os.path.basename(jar_path)
+    dst = os.join(path, jar_file)
+
+    logger.info("Move {} to {}...".format(jar_file, dst))
+    shutil.move(jar_path, dst)
+
+    if platform.system() != "Windows":
+        script_file = os.path.join(path, "gw.bat")
+        logger.info("Create {}...".format(script_file))
+
+        with open(script_file, "w") as fp:
+            fp.write("java -jar {} %*".format(dst))
+    else:
+        script_file = os.path.join(path, "gw.sh")
+        logger.info("Create {}...".format(script_file))
+
+        with open(script_file, "w") as fp:
+            fp.writelines([
+                "#!/bin/bash",
+                "java -jar ~/.graphwalker/{} \"$@\"".format(dst)
+            ])
+
+        os.system("chmod +x {}".format(script_file))
 
 
 def main(version):
@@ -70,10 +100,10 @@ def main(version):
     clone_graphwalker(repo_path)
 
     try:
-        jar_file = build_graphwalker(repo_path, version)
-        logger.debug("GraphWalker jar file: {}".format(jar_file))
+        jar_path = build_graphwalker(repo_path, version)
+        logger.debug("GraphWalker jar file: {}".format(jar_path))
 
-        create_graphwalker_script(path, jar_file)
+        create_graphwalker_script(path, jar_path)
     finally:
         logger.debug("Remove the GraphWalker repo from: {}".format(repo_path))
         shutil.rmtree(repo_path)
