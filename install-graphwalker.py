@@ -55,10 +55,10 @@ class Command:
                 raise Exception("The command '{}' failed with exit code: {}.".format(self.command, exitcode))
 
     def _log_output(self, outs, errs):
-        for line in outs.split('\n'):
+        for line in outs.decode("utf-8").split('\n'):
             logger.debug("[STDOUT] >>> {}".format(line))
 
-        for line in errs.split('\n'):
+        for line in errs.decode("utf-8").split('\n'):
             logger.debug("[STDERR] >>> {}".format(line))
 
 
