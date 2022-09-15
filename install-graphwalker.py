@@ -51,7 +51,7 @@ def build_graphwalker(path, version):
     build_path = "graphwalker-cli/target/"
     jar_file = get_files_by_extension(build_path, ".jar")[0]
 
-    return os.path.join(repo_path, build_path, jar_file)
+    return os.path.join(path, build_path, jar_file)
 
 
 def create_graphwalker_script(path, jar_path):
