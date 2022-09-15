@@ -1,8 +1,10 @@
 """A simple python script for installing GraphWalker CLI on Linux, MacOS and Windows."""
 
+import subprocess
 import platform
 import logging
 import shutil
+import shlex
 import sys
 import os
 import re
@@ -16,11 +18,48 @@ pattern = re.compile('^([0-9]+\.){2}([0-9]+)$')
 
 class Command:
 
-    def __init__(self, command):
-        pass
+    def __init__(self, command, cwd=None):
+        self.command = command
+        self.args = shlex.split(command)
+        self.cwd = cwd
 
-    def _log_output(self, output):
-        pass
+        logger.info("Command: {}".format(self.command))
+        logger.info("Args: {}".format(self.ards))
+        logger.info("CWD: {}".format(self.cwd))
+
+        try:
+            logging.info("Running subprocess: '{}'.".format(self.command))
+            process = subprocess.Popen(
+                self.args,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+            )
+            outs, errs = process.communicate()
+        except TimeoutExpired:
+            process.kill()
+            outs, errs = proc.communicate()
+            self._log_output(outs, errs)
+
+            raise
+        except Exception as exception:
+            logger.error("An unexpected error ocurred while running: '{}'.".format(self.command))
+            logger.error(exception)
+
+            raise
+        else:
+            logger.info("Subprocess '{}' finished.".format(self.command))
+            self._log_output(outs, errs)
+
+            exitcode = self.process.returncode
+            if not exitcode == 0:
+                raise Exception("The command '{}' failed with exit code: {}.".format(self.command, exitcode))
+
+    def _log_output(self, outs, errs):
+        for line in outs.split('\n'):
+            logger.debug("[STDOUT] >>> {}".format(line))
+
+        for line in errs.split('\n'):
+            logger.debug("[STDERR] >>> {}".format(line))
 
 
 def validate_graphwalker_version(version):
@@ -39,7 +78,8 @@ def clone_graphwalker(path):
     url = "https://github.com/GraphWalker/graphwalker-project.git"
 
     logger.debug("Clone the GraphWalker repo from: {}".format(url))
-    os.system("git clone {} {}".format(url, path))
+    # os.system("git clone {} {}".format(url, path))
+    Command("git clone {} {}".format(url, path))
 
 
 def build_graphwalker(path, version):
