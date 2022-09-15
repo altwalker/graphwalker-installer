@@ -24,7 +24,7 @@ class Command:
         self.cwd = cwd
 
         logger.info("Command: {}".format(self.command))
-        logger.info("Args: {}".format(self.ards))
+        logger.info("Args: {}".format(self.args))
         logger.info("CWD: {}".format(self.cwd))
 
         try:
