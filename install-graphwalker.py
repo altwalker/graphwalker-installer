@@ -60,7 +60,7 @@ def create_graphwalker_script(path, jar_path):
     logger.debug("JAR path: {!r}".format(jar_path))
 
     jar_file = os.path.basename(jar_path)
-    dst = os..path.join(path, jar_file)
+    dst = os.path.join(path, jar_file)
 
     logger.info("Move {} to {}...".format(jar_file, dst))
     shutil.move(jar_path, dst)
