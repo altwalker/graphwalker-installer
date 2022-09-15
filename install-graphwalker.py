@@ -82,6 +82,7 @@ def create_graphwalker_script(path, jar_path):
             ])
 
         os.system("chmod +x {}".format(script_file))
+        os.system("ln -s {} /usr/local/bin/gw".format(script_file))
 
 
 def main(version):
