@@ -14,6 +14,15 @@ logger = logging.getLogger(__name__)
 pattern = re.compile('^([0-9]+\.){2}([0-9]+)$')
 
 
+class Command:
+
+    def __init__(self, command):
+        pass
+
+    def _log_output(self, output):
+        pass
+
+
 def validate_graphwalker_version(version):
     if version == 'latest':
         return
@@ -65,7 +74,7 @@ def create_graphwalker_script(path, jar_path):
     logger.info("Move {} to {}...".format(jar_file, dst))
     shutil.move(jar_path, dst)
 
-    if platform.system() != "Windows":
+    if platform.system() == "Windows":
         script_file = os.path.join(path, "gw.bat")
         logger.info("Create {}...".format(script_file))
 
