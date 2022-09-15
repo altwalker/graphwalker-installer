@@ -50,7 +50,7 @@ class Command:
             logger.info("Subprocess '{}' finished.".format(self.command))
             self._log_output(outs, errs)
 
-            exitcode = self.process.returncode
+            exitcode = process.returncode
             if not exitcode == 0:
                 raise Exception("The command '{}' failed with exit code: {}.".format(self.command, exitcode))
 
