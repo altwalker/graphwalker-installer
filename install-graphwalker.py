@@ -131,7 +131,6 @@ def create_graphwalker_script(path, jar_path):
             fp.write("java -jar {} %*".format(dst))
 
         Command("setx PATH \"%PATH%;{}\"".format(script_file))
-        Command("set PATH=%PATH%;{}".format(script_file))
     else:
         script_file = path / "gw.sh"
         logger.info("Create {}...".format(script_file))
@@ -152,7 +151,8 @@ def main(version):
     validate_graphwalker_version(version)
 
     if platform.system() == "Windows":
-        path = Path(Path.cwd().anchor) / "graphwalker"
+        # path = Path(Path.cwd().anchor) / "graphwalker"
+        path = Path.home() / "graphwalker"
     else:
         path = Path.home() / ".graphwalker"
 
