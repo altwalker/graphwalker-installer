@@ -57,11 +57,11 @@ class Command:
 
     def _log_output(self, outs, errs):
         if outs:
-            for line in outs.decode("utf-8").split('\n'):
+            for line in outs.decode("utf-8").splitlines():
                 logger.debug("[STDOUT] >>> {}".format(line))
 
         if errs:
-            for line in errs.decode("utf-8").split('\n'):
+            for line in errs.decode("utf-8").splitlines():
                 logger.debug("[STDERR] >>> {}".format(line))
 
 
@@ -89,8 +89,6 @@ def build_graphwalker(path, version):
     logger.debug("Path: {}".format(path))
     logger.debug("Version: {}".format(version))
 
-    os.chdir(path)
-
     if version != "latest":
         logger.info("Checkout to version {}...".format(version))
         try:
@@ -117,7 +115,7 @@ def create_graphwalker_script(path, jar_path):
     jar_file = os.path.basename(jar_path)
     dst = os.path.join(path, jar_file)
 
-    logger.info("Move {} to {}...".format(jar_file, dst))
+    logger.info("Move '{}' to '{}'...".format(jar_file, dst))
     shutil.move(jar_path, dst)
 
     if platform.system() == "Windows":
@@ -136,8 +134,8 @@ def create_graphwalker_script(path, jar_path):
                 "java -jar ~/.graphwalker/{} \"$@\"".format(dst)
             ])
 
-        os.system("chmod +x {}".format(script_file))
-        os.system("ln -s {} /usr/local/bin/gw".format(script_file))
+        Command("chmod +x {}".format(script_file), cwd=path)
+        Command("ln -s {} /usr/local/bin/gw".format(script_file), cwd=path)
 
 
 def main(version):
