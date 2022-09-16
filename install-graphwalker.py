@@ -1,5 +1,6 @@
 """A simple python script for installing GraphWalker CLI on Linux, MacOS and Windows."""
 
+from pathlib import Path
 import subprocess
 import platform
 import logging
@@ -36,8 +37,8 @@ class Command:
                 self.args,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                cwd=self.cwd,
-                shell=platform.system() == "Windows"
+                cwd=self.cwd
+                # shell=platform.system() == "Windows"
             )
             outs, errs = process.communicate()
         except subprocess.TimeoutExpired:
@@ -78,7 +79,7 @@ def validate_graphwalker_version(version):
 
 
 def get_files_by_extension(path, extension):
-    return [filename for filename in os.listdir(path) if filename.endswith(extension)]
+    return [filename for filename in path.iterdir() if filename.endswith(extension)]
 
 
 def clone_graphwalker(path):
@@ -105,10 +106,10 @@ def build_graphwalker(path, version):
     except:
         raise Exception("The GraphWalker build processes failed.")
 
-    build_path = os.path.join(path, "graphwalker-cli" , "target")
+    build_path = path / "graphwalker-cli" / "target"
     jar_file = get_files_by_extension(build_path, ".jar")[0]
 
-    return os.path.join(build_path, jar_file)
+    return build_path / jar_file
 
 
 def create_graphwalker_script(path, jar_path):
@@ -116,14 +117,14 @@ def create_graphwalker_script(path, jar_path):
     logger.debug("Path: {!r}".format(path))
     logger.debug("JAR path: {!r}".format(jar_path))
 
-    jar_file = os.path.basename(jar_path)
-    dst = os.path.join(path, jar_file)
+    jar_file = jar_path.name
+    dst = path / jar_file
 
-    logger.info("Move '{}' to '{}'...".format(jar_file, dst))
+    logger.info("Move '{}' to '{}'...".format(jar_path, dst))
     shutil.move(jar_path, dst)
 
     if platform.system() == "Windows":
-        script_file = os.path.join(path, "gw.bat")
+        script_file = path / "gw.bat"
         logger.info("Create {}...".format(script_file))
 
         with open(script_file, "w") as fp:
@@ -131,7 +132,7 @@ def create_graphwalker_script(path, jar_path):
 
         Command("setx PATH \"%PATH%;{}\"".format(script_file))
     else:
-        script_file = os.path.join(path, "gw.sh")
+        script_file = path / "gw.sh"
         logger.info("Create {}...".format(script_file))
 
         with open(script_file, "w") as fp:
@@ -150,15 +151,16 @@ def main(version):
     validate_graphwalker_version(version)
 
     if platform.system() == "Windows":
-        path = os.path.expanduser(os.path.join("~", "graphwalker"))
+        path = Path.home() / "graphwalker"
     else:
-        path = os.path.expanduser("~/.graphwalker")
+        path = Path.home() / ".graphwalker"
 
     logger.debug("GraphWalker home directory: {}".format(path))
 
-    os.makedirs(path, exist_ok=True)
+    path.makedir(exist_ok=True)
+    # os.makedirs(path, exist_ok=True)
 
-    repo_path = os.path.join(path, "graphwalker-project")
+    repo_path = path / "graphwalker-project"
     logger.debug("GraphWalker repo directory: {}".format(repo_path))
 
     clone_graphwalker(repo_path)
