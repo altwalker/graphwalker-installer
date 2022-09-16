@@ -33,6 +33,7 @@ class Command:
                 self.args,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
+                cwd=self.cwd
             )
             outs, errs = process.communicate()
         except TimeoutExpired:
@@ -80,23 +81,26 @@ def clone_graphwalker(path):
     url = "https://github.com/GraphWalker/graphwalker-project.git"
 
     logger.debug("Clone the GraphWalker repo from: {}".format(url))
-    # os.system("git clone {} {}".format(url, path))
     Command("git clone {} {}".format(url, path))
 
 
 def build_graphwalker(path, version):
+    logger.info("Build GraphWalker CLI...")
+    logger.debug("Path: {}".format(path))
+    logger.debug("Version: {}".format(version))
+
     os.chdir(path)
 
     if version != "latest":
-        status = os.system("git checkout {}".format(version))
-
-        if not status == 0:
+        logger.info("Checkout to version {}...".format(version))
+        try:
+            Command("git checkout {}".format(version), cwd=path)
+        except:
             raise Exception("No matching version found for GraphWalker version '{}'.".format(version))
 
-    status = os.system("mvn package -pl graphwalker-cli -am")
-    logger.debug("Build status: {}".format(status))
-
-    if not status == 0:
+    try:
+        Command("mvn package -pl graphwalker-cli -am", cwd=path)
+    except:
         raise Exception("The GraphWalker build processes failed with status code: '{}'.".format(status))
 
     build_path = "graphwalker-cli/target/"
