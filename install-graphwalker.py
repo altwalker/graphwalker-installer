@@ -99,7 +99,7 @@ def build_graphwalker(path, version):
     try:
         Command("mvn package -pl graphwalker-cli -am", cwd=path)
     except:
-        raise Exception("The GraphWalker build processes failed with status code: '{}'.".format(status))
+        raise Exception("The GraphWalker build processes failed.")
 
     build_path = os.path.join(path, "graphwalker-cli/target/")
     jar_file = get_files_by_extension(build_path, ".jar")[0]
