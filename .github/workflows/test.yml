@@ -63,7 +63,8 @@ jobs:
           python install-graphwalker.py
       - name: Echo path for debugging
         run: |
-          echo %PATH%
+          echo %PATH% |
+          path
       - name: Run GraphWalker
         run: |
           gw --version
