@@ -61,10 +61,11 @@ jobs:
       - name: Install GraphWalker
         run: |
           python install-graphwalker.py
+      - run: |
+          echo "$env"
       - name: Add to GraphWalker script to the system PATH variable
         run: |
-          echo "$env:HOMEPATH"
-          "$env:HOMEPATH/graphwalker" >> $env:GITHUB_PATH
+          "C:\Users\runneradmin\graphwalker" >> $env:GITHUB_PATH
       - name: Run GraphWalker
         run: |
           gw --version
