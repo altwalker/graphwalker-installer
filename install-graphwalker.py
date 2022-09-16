@@ -37,8 +37,8 @@ class Command:
                 self.command if platform.system() == "Windows" else self.args,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                cwd=self.cwd
-                # shell=platform.system() == "Windows"
+                cwd=self.cwd,
+                shell=platform.system() == "Windows"
             )
             outs, errs = process.communicate()
         except subprocess.TimeoutExpired:
