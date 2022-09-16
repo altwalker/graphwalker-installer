@@ -101,10 +101,10 @@ def build_graphwalker(path, version):
     except:
         raise Exception("The GraphWalker build processes failed with status code: '{}'.".format(status))
 
-    build_path = "graphwalker-cli/target/"
+    build_path = os.path.join(path, "graphwalker-cli/target/")
     jar_file = get_files_by_extension(build_path, ".jar")[0]
 
-    return os.path.join(path, build_path, jar_file)
+    return os.path.join(build_path, jar_file)
 
 
 def create_graphwalker_script(path, jar_path):
@@ -124,6 +124,8 @@ def create_graphwalker_script(path, jar_path):
 
         with open(script_file, "w") as fp:
             fp.write("java -jar {} %*".format(dst))
+
+        Command("setx PATH \"%PATH%;{}\"".format(script_file))
     else:
         script_file = os.path.join(path, "gw.sh")
         logger.info("Create {}...".format(script_file))
