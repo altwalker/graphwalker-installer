@@ -61,9 +61,9 @@ jobs:
       - name: Install GraphWalker
         run: |
           python install-graphwalker.py
-      - name: List
+      - name: Add to path
         run: |
-          dir C:\Users\runneradmin\graphwalker
+          "C:\Users\runneradmin\graphwalker" >> $env:GITHUB_PATH
       - name: Run GraphWalker
         run: |
           gw --version
