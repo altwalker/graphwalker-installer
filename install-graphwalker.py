@@ -172,7 +172,8 @@ def main(version):
         create_graphwalker_script(path, jar_path)
     finally:
         logger.debug("Remove the GraphWalker repo from: {}".format(repo_path))
-        shutil.rmtree(repo_path)
+        # Ignore errors as a quick fix for windows
+        shutil.rmtree(repo_path, ignore_errors=True)
 
 
 if __name__ == '__main__':
