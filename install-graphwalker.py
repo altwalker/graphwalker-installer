@@ -36,7 +36,7 @@ class Command:
                 cwd=self.cwd
             )
             outs, errs = process.communicate()
-        except TimeoutExpired:
+        except subprocess.TimeoutExpired:
             process.kill()
             outs, errs = proc.communicate()
             self._log_output(outs, errs)
