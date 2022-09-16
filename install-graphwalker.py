@@ -101,7 +101,7 @@ def build_graphwalker(path, version):
     except:
         raise Exception("The GraphWalker build processes failed.")
 
-    build_path = os.path.join(path, "graphwalker-cli/target/")
+    build_path = os.path.join(path, "graphwalker-cli" , "target")
     jar_file = get_files_by_extension(build_path, ".jar")[0]
 
     return os.path.join(build_path, jar_file)
@@ -145,7 +145,7 @@ def main(version):
         version = "latest"
     validate_graphwalker_version(version)
 
-    path = os.path.expanduser("~/.graphwalker") if platform.system() != "Windows" else os.path.expanduser("~/graphwalker")
+    path = os.path.expanduser("~/.graphwalker") if platform.system() != "Windows" else os.path.expanduser(os.path.join("~", "graphwalker"))
     logger.debug("GraphWalker home directory: {}".format(path))
 
     os.makedirs(path, exist_ok=True)
