@@ -34,7 +34,7 @@ class Command:
         try:
             logging.info("Running subprocess: '{}'.".format(self.command))
             process = subprocess.Popen(
-                self.args,
+                self.command if platform.system() == "Windows" else self.args,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 cwd=self.cwd
@@ -79,7 +79,7 @@ def validate_graphwalker_version(version):
 
 
 def get_files_by_extension(path, extension):
-    return [filename for filename in path.iterdir() if filename.endswith(extension)]
+    return [filename for filename in path.iterdir() if filename.suffix == extension]
 
 
 def clone_graphwalker(path):
