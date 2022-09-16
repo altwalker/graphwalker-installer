@@ -62,10 +62,6 @@ jobs:
         run: |
           python install-graphwalker.py
           gw --help
-      - name: Add gw.bat to path
-        run: |
-          "C:\Users\runneradmin\graphwalker\gw.bat" >> $env:GITHUB_PATH
-          gw --help
       - name: Run GraphWalker
         run: |
           gw --version

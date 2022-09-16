@@ -130,8 +130,7 @@ def create_graphwalker_script(path, jar_path):
         with open(script_file, "w") as fp:
             fp.write("java -jar {} %*".format(dst))
 
-        Command("setx PATH \"%PATH%;{}\"".format(script_file))
-        Command("set PATH=%PATH%;{}".format(script_file))
+        Command("setx PATH %PATH%;{}".format(script_file))
     else:
         script_file = path / "gw.sh"
         logger.info("Create {}...".format(script_file))
