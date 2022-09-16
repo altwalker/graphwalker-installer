@@ -61,7 +61,6 @@ jobs:
       - name: Install GraphWalker
         run: |
           python install-graphwalker.py
-          gw --help
       - name: Run GraphWalker
         run: |
           gw --version
