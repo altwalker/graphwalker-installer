@@ -23,8 +23,8 @@ class Command:
         self.args = shlex.split(command)
         self.cwd = cwd
 
-        if platform.system() == "Windows":
-            self.args.insert(0, "cmd")
+        # if platform.system() == "Windows":
+        #     self.args.insert(0, "cmd")
 
         logger.info("Command: {}".format(self.command))
         logger.info("Args: {}".format(self.args))
@@ -37,6 +37,7 @@ class Command:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 cwd=self.cwd,
+                shell=platform.system() == "Windows"
             )
             outs, errs = process.communicate()
         except subprocess.TimeoutExpired:
