@@ -102,7 +102,7 @@ def build_graphwalker(path, version):
             raise Exception("No matching version found for GraphWalker version '{}'.".format(version))
 
     try:
-        Command("mvn package -pl graphwalker-cli -am", cwd=path)
+        Command("mvn package -pl graphwalker-cli -am -Dmaven.test.skip", cwd=path)
     except:
         raise Exception("The GraphWalker build processes failed.")
 
