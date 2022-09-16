@@ -157,7 +157,7 @@ def main(version):
 
     logger.debug("GraphWalker home directory: {}".format(path))
 
-    path.makedir(exist_ok=True)
+    path.mkdir(exist_ok=True)
     # os.makedirs(path, exist_ok=True)
 
     repo_path = path / "graphwalker-project"
