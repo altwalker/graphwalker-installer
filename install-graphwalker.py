@@ -151,7 +151,7 @@ def main(version):
     validate_graphwalker_version(version)
 
     if platform.system() == "Windows":
-        path = Path.cwd().anchor / "graphwalker"
+        path = Path(Path.cwd().anchor) / "graphwalker"
     else:
         path = Path.home() / ".graphwalker"
 
