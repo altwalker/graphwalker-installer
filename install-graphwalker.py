@@ -23,6 +23,9 @@ class Command:
         self.args = shlex.split(command)
         self.cwd = cwd
 
+        if platform.system() == "Windows":
+            self.args.insert(0, "cmd")
+
         logger.info("Command: {}".format(self.command))
         logger.info("Args: {}".format(self.args))
         logger.info("CWD: {}".format(self.cwd))
@@ -33,7 +36,7 @@ class Command:
                 self.args,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                cwd=self.cwd
+                cwd=self.cwd,
             )
             outs, errs = process.communicate()
         except subprocess.TimeoutExpired:
@@ -145,7 +148,11 @@ def main(version):
         version = "latest"
     validate_graphwalker_version(version)
 
-    path = os.path.expanduser("~/.graphwalker") if platform.system() != "Windows" else os.path.expanduser(os.path.join("~", "graphwalker"))
+    if platform.system() == "Windows":
+        path = os.path.expanduser(os.path.join("~", "graphwalker"))
+    else:
+        path = os.path.expanduser("~/.graphwalker")
+
     logger.debug("GraphWalker home directory: {}".format(path))
 
     os.makedirs(path, exist_ok=True)
