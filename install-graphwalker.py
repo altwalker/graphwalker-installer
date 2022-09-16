@@ -145,7 +145,7 @@ def main(version):
         version = "latest"
     validate_graphwalker_version(version)
 
-    path = os.path.expanduser("~/.graphwalker") if platform.system() != "Windows" else os.path.expanduser("C:\graphwalker")
+    path = os.path.expanduser("~/.graphwalker") if platform.system() != "Windows" else os.path.expanduser("~/graphwalker")
     logger.debug("GraphWalker home directory: {}".format(path))
 
     os.makedirs(path, exist_ok=True)
