@@ -26,6 +26,7 @@ jobs:
           python install-graphwalker.py ${{ matrix.graphwalker-version }}
       - name: Run GraphWalker
         run: |
+          cat /home/runner/.graphwalker/gw.sh
           gw --version
 
   test-macos:
