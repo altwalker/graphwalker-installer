@@ -85,7 +85,7 @@ def get_files_by_extension(path, extension):
 def clone_graphwalker(path):
     url = "https://github.com/GraphWalker/graphwalker-project.git"
 
-    logger.debug("Clone the GraphWalker repo from: {}".format(url))
+    logger.debug("Clone the GraphWalker repository from: {}".format(url))
     Command("git clone {} {}".format(url, path))
 
 

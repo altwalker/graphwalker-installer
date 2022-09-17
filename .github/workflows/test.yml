@@ -17,10 +17,13 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
       - name: Install GraphWalker ${{ matrix.graphwalker-version }}
         run: |
-          chmod +x install-graphwalker.sh
-          ./install-graphwalker.sh ${{ matrix.graphwalker-version }}
+          python install-graphwalker.py ${{ matrix.graphwalker-version }}
       - name: Run GraphWalker
         run: |
           gw --version
