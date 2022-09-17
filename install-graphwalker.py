@@ -107,9 +107,11 @@ def build_graphwalker(path, version):
         raise Exception("The GraphWalker build processes failed.")
 
     build_path = path / "graphwalker-cli" / "target"
-    jar_file = get_files_by_extension(build_path, ".jar")[0]
+    jar_files = get_files_by_extension(build_path, ".jar")
 
-    return build_path / jar_file
+    logger.debug("JAR files: {}", jar_files)
+
+    return build_path / jar_files[0]
 
 
 def create_graphwalker_script(path, jar_path):
