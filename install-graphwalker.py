@@ -128,10 +128,11 @@ def create_graphwalker_script(path, jar_path):
         logger.info("Create {}...".format(script_file))
 
         with open(script_file, "w") as fp:
-            fp.writelines([
-                "@echo off"
+            script_content = [
+                "@echo off",
                 "java -jar {} %*".format(dst)
-            ])
+            ]
+            fw.write('\n'.join(script_content) + '\n')
 
         Command("setx PATH \"%PATH%;{}\"".format(path))
     else:
@@ -139,10 +140,11 @@ def create_graphwalker_script(path, jar_path):
         logger.info("Create {}...".format(script_file))
 
         with open(script_file, "w") as fp:
-            fp.writelines([
+            script_content = [
                 "#!/bin/bash",
                 "java -jar ~/.graphwalker/{} \"$@\"".format(dst)
-            ])
+            ]
+            fw.write('\n'.join(script_content) + '\n')
 
         Command("chmod +x {}".format(script_file), cwd=path)
         Command("ln -s {} /usr/local/bin/gw".format(script_file), cwd=path)
