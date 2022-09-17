@@ -142,7 +142,7 @@ def create_graphwalker_script(path, jar_path):
         with open(script_file, "w") as fp:
             script_content = [
                 "#!/bin/bash",
-                "java -jar ~/.graphwalker/{} \"$@\"".format(dst)
+                "java -jar {} \"$@\"".format(dst)
             ]
             fp.write('\n'.join(script_content) + '\n')
 
