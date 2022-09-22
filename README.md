@@ -1,6 +1,6 @@
 # graphwalker-installer
 
-Scripts for install GraphWalker CLI on Linux, MacOS and Windows.
+Python scripts for installing GraphWalker CLI on Linux, MacOS and Windows.
 
 ## Usage
 
@@ -9,13 +9,15 @@ To install GraphWalker on:
 * **Linux/MacOS** you can run the following command:
 
     ```bash
-    $ curl -L https://raw.githubusercontent.com/altwalker/graphwalker-installer/main/install-graphwalker.sh | sh
+    $ curl -L https://raw.githubusercontent.com/altwalker/graphwalker-installer/main/install-graphwalker.py
+    $ python install-graphwalker.py
     ```
 
     Or:
 
     ```bash
     $ wget -q -O - https://raw.githubusercontent.com/altwalker/graphwalker-installer/main/install-graphwalker.sh | sh
+    $ python install-graphwalker.py
     ```
 
     Or:
@@ -23,8 +25,7 @@ To install GraphWalker on:
     ```bash
     $ git clone https://github.com/altwalker/graphwalker-installer.git
     $ cd graphwalker-installer
-    $ chmod +x install-graphwalker.sh
-    $ ./install-graphwalker.sh
+    $ python install-graphwalker.py
     ```
 
 * **Windows** you can run the following commands:
@@ -32,8 +33,18 @@ To install GraphWalker on:
     ```cmd
     > git clone https://github.com/altwalker/graphwalker-installer.git
     > cd graphwalker-installer
-    > install-graphwalker.bat
+    > python install-graphwalker.py
     ```
+
+After installing GraphWalker check that you installed the correct version:
+
+```
+$ gw --version
+org.graphwalker version: 4.3.1-6273494
+...
+```
+
+You can also install a specific version of GraphWalker by running `python install-graphwalker.py <version>` (e.g. `python install-graphwalker.py 4.3.1`).
 
 ## License
 
