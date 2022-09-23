@@ -24,9 +24,6 @@ class Command:
         self.args = shlex.split(command)
         self.cwd = cwd
 
-        # if platform.system() == "Windows":
-        #     self.args.insert(0, "cmd")
-
         logger.info("Command: {}".format(self.command))
         logger.info("Args: {}".format(self.args))
         logger.info("CWD: {}".format(self.cwd))
@@ -160,7 +157,6 @@ def main(version):
     validate_graphwalker_version(version)
 
     if platform.system() == "Windows":
-        # path = Path(Path.cwd().anchor) / "graphwalker"
         path = Path.home() / "graphwalker"
     else:
         path = Path.home() / ".graphwalker"
@@ -168,7 +164,6 @@ def main(version):
     logger.debug("GraphWalker home directory: {}".format(path))
 
     path.mkdir(exist_ok=True)
-    # os.makedirs(path, exist_ok=True)
 
     repo_path = path / "graphwalker-project"
     logger.debug("GraphWalker repo directory: {}".format(repo_path))
