@@ -1,6 +1,6 @@
 # graphwalker-installer
 
-Python scripts for installing GraphWalker CLI on Linux, MacOS and Windows.
+Python scripts for installing [GraphWalker](https://graphwalker.github.io/) CLI on Linux, MacOS and Windows.
 
 ## Usage
 
