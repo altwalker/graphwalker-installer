@@ -16,7 +16,7 @@ To install GraphWalker on:
     Or:
 
     ```bash
-    $ wget -q -O - https://raw.githubusercontent.com/altwalker/graphwalker-installer/main/install-graphwalker.sh | sh
+    $ wget -q -O - https://raw.githubusercontent.com/altwalker/graphwalker-installer/main/install-graphwalker.py
     $ python install-graphwalker.py
     ```
 
