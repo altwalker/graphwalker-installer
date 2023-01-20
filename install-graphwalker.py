@@ -41,7 +41,7 @@ class Command:
             outs, errs = process.communicate(timeout=timeout)
         except subprocess.TimeoutExpired:
             process.kill()
-            outs, errs = proc.communicate()
+            outs, errs = process.communicate()
             self._log_output(outs, errs)
 
             raise
