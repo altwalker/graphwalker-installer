@@ -163,9 +163,9 @@ def create_graphwalker_script(path, jar_path):
 
 
 def main(version):
-    has_command("git --version")
-    has_command("java --version")
-    has_command("mvn --version")
+    for command in [("git", "--version"), ("java", "--version"), ("mvn", "--version")]:
+        if not has_command(" ".join(command)):
+            raise Exception("Could not run '{}'. Make sure '{}' is installed.".format(" ".join(command), command[0]))
 
     if not version:
         version = "latest"
