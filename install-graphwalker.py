@@ -7,7 +7,6 @@ import logging
 import shutil
 import shlex
 import sys
-import os
 import re
 
 
@@ -19,10 +18,11 @@ pattern = re.compile('^([0-9]+\.){2}([0-9]+)$')
 
 class Command:
 
-    def __init__(self, command, cwd=None):
+    def __init__(self, command, cwd=None, timeout=None):
         self.command = command
         self.args = shlex.split(command)
         self.cwd = cwd
+        self.timeout = timeout
 
         logger.info("Command: {}".format(self.command))
         logger.info("Args: {}".format(self.args))
@@ -37,10 +37,10 @@ class Command:
                 cwd=self.cwd,
                 shell=platform.system() == "Windows"
             )
-            outs, errs = process.communicate()
+            outs, errs = process.communicate(timeout=timeout)
         except subprocess.TimeoutExpired:
             process.kill()
-            outs, errs = proc.communicate()
+            outs, errs = process.communicate()
             self._log_output(outs, errs)
 
             raise
@@ -65,6 +65,16 @@ class Command:
         if errs:
             for line in errs.decode("utf-8").splitlines():
                 logger.debug("[STDERR] >>> {}".format(line))
+
+
+def has_command(command, timeout=10):
+    """Returns True if it can run the command, otherwise returns False."""
+
+    try:
+        Command(command, timeout=timeout)
+        return True
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return False
 
 
 def validate_graphwalker_version(version):
@@ -95,12 +105,12 @@ def build_graphwalker(path, version):
         logger.info("Checkout to version {}...".format(version))
         try:
             Command("git checkout {}".format(version), cwd=path)
-        except:
+        except Exception:
             raise Exception("No matching version found for GraphWalker version '{}'.".format(version))
 
     try:
         Command("mvn package -pl graphwalker-cli -am -Dmaven.test.skip", cwd=path)
-    except:
+    except Exception:
         raise Exception("The GraphWalker build processes failed.")
 
     build_path = path / "graphwalker-cli" / "target"
@@ -152,6 +162,10 @@ def create_graphwalker_script(path, jar_path):
 
 
 def main(version):
+    for command in [("git", "--version"), ("java", "--version"), ("mvn", "--version")]:
+        if not has_command(" ".join(command)):
+            raise Exception("Could not run '{}'. Make sure '{}' is installed.".format(" ".join(command), command[0]))
+
     if not version:
         version = "latest"
     validate_graphwalker_version(version)
