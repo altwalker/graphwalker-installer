@@ -19,7 +19,7 @@ pattern = re.compile('^([0-9]+\.){2}([0-9]+)$')
 
 class Command:
 
-    def __init__(self, command, cwd=None, timeout=10):
+    def __init__(self, command, cwd=None, timeout=None):
         self.command = command
         self.args = shlex.split(command)
         self.cwd = cwd
@@ -68,7 +68,7 @@ class Command:
                 logger.debug("[STDERR] >>> {}".format(line))
 
 
-def has_command(command, timeout=None):
+def has_command(command, timeout=10):
     """Returns True if it can run the command, otherwise returns False."""
 
     try:
