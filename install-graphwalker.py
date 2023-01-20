@@ -19,10 +19,11 @@ pattern = re.compile('^([0-9]+\.){2}([0-9]+)$')
 
 class Command:
 
-    def __init__(self, command, cwd=None):
+    def __init__(self, command, cwd=None, timeout=10):
         self.command = command
         self.args = shlex.split(command)
         self.cwd = cwd
+        self.timeout = timeout
 
         logger.info("Command: {}".format(self.command))
         logger.info("Args: {}".format(self.args))
@@ -37,7 +38,7 @@ class Command:
                 cwd=self.cwd,
                 shell=platform.system() == "Windows"
             )
-            outs, errs = process.communicate()
+            outs, errs = process.communicate(timeout=timeout)
         except subprocess.TimeoutExpired:
             process.kill()
             outs, errs = proc.communicate()
@@ -65,6 +66,16 @@ class Command:
         if errs:
             for line in errs.decode("utf-8").splitlines():
                 logger.debug("[STDERR] >>> {}".format(line))
+
+
+def has_command(command, timeout=None):
+    """Returns True if it can run the command, otherwise returns False."""
+
+    try:
+        Command(command, timeout=timeout)
+        return True
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return False
 
 
 def validate_graphwalker_version(version):
@@ -152,6 +163,10 @@ def create_graphwalker_script(path, jar_path):
 
 
 def main(version):
+    has_command("git --version")
+    has_command("java --version")
+    has_command("mvn --version")
+
     if not version:
         version = "latest"
     validate_graphwalker_version(version)
