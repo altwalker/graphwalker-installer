@@ -12,18 +12,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'adopt'
+
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
+
       - name: Install GraphWalker ${{ matrix.graphwalker-version }}
         run: |
           python install-graphwalker.py ${{ matrix.graphwalker-version }}
+
       - name: Run GraphWalker
         run: |
           cat /home/runner/.graphwalker/gw.sh
@@ -31,43 +35,55 @@ jobs:
 
   test-macos:
     runs-on: macos-latest
+
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'adopt'
+
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
+
       - name: Install GraphWalker
         run: |
           python install-graphwalker.py
+
       - name: Run GraphWalker
         run: |
           gw --version
 
   test-windows:
     runs-on: windows-latest
+
     steps:
+
       - uses: actions/checkout@v3
+
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'adopt'
+
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
+
       - name: Install GraphWalker
         run: |
           python install-graphwalker.py
+
       - name: Add to GraphWalker script to the system PATH variable
         run: |
           "C:\Users\runneradmin\graphwalker" >> $env:GITHUB_PATH
+
       - name: Run GraphWalker
         run: |
           gw --version
