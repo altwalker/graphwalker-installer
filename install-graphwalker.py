@@ -7,7 +7,6 @@ import logging
 import shutil
 import shlex
 import sys
-import os
 import re
 
 
@@ -106,12 +105,12 @@ def build_graphwalker(path, version):
         logger.info("Checkout to version {}...".format(version))
         try:
             Command("git checkout {}".format(version), cwd=path)
-        except:
+        except Exception:
             raise Exception("No matching version found for GraphWalker version '{}'.".format(version))
 
     try:
         Command("mvn package -pl graphwalker-cli -am -Dmaven.test.skip", cwd=path)
-    except:
+    except Exception:
         raise Exception("The GraphWalker build processes failed.")
 
     build_path = path / "graphwalker-cli" / "target"
